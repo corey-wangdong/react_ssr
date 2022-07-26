@@ -12,7 +12,7 @@ module.exports = {
   },
   mode: 'development',
   target: 'node',
-  externals: [nodeExternals()],
+  externals: [nodeExternals()],//保持node中require的引用方式
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '../src')
