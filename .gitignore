@@ -7,7 +7,7 @@
 # Ignore bundler config.
 /.bundle
 node_modules
-dist/server
+dist/
 #public/index.html
 
 /.husky
