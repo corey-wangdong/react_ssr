@@ -1,9 +1,19 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { hydrate } from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import User from './pages/user';
+import Login from './pages/login';
 
 import App from './app';
 
-// hydrateRoot(<App />, document.getElementById('root'));
-const container = document.getElementById("root");
-const root = ReactDOM.hydrateRoot(container, <App />);
+hydrate(
+  <Router>
+    <Route path="/" component={App}>
+      <Route exact path="/user" component={User}></Route>
+      <Route exact path="/login" component={Login}></Route>
+    </Route>
+  </Router>,
+  document.getElementById("root")
+);

@@ -11,7 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, '../dist/server')
   },
   mode: 'development',
-  target: 'node',
+  target: 'node',//不将node自带的诸如path、fs这类的包打进去
   externals: [nodeExternals()],//保持node中require的引用方式
   resolve: {
     alias: {

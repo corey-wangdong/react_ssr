@@ -1,17 +1,27 @@
+import express from 'express';
+
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { StaticRouter, Route } from 'react-router';
 
-import App from './src/app';
+import Login from '@/login';
+import User from '@/user';
 
-const express = require('express');
 const app = express();
 
 const PORT = 666;
 
 app.use(express.static("dist"))
 
-app.get('/', function (req, res) {
-  const content = renderToString(<App />);
+app.get('*', function (req, res) {
+  console.log('req.url------', req.url);
+  const content = renderToString(<div>
+    <StaticRouter location={req.url}>
+      <Route exact path="/user" component={User} ></Route>
+      <Route exact path="/login" component={Login} ></Route>
+    </StaticRouter>
+  </div>);
+
   res.send(`
     <!doctype html>
     <html>
