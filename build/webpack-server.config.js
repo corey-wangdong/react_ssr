@@ -1,5 +1,5 @@
 const path = require('path');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
@@ -27,5 +27,11 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, '../public'),
+      to: path.resolve(__dirname, '../dist')
+    }])
+  ]
 }

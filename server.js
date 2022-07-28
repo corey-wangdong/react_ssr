@@ -1,11 +1,8 @@
-import express from 'express';
 
 import React from 'react';
+import express from 'express';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter, Route } from 'react-router';
-
-import Login from '@/login';
-import User from '@/user';
+import { createRouter } from './src/router'
 
 const app = express();
 
@@ -15,23 +12,25 @@ app.use(express.static("dist"))
 
 app.get('*', function (req, res) {
   console.log('req.url------', req.url);
-  const content = renderToString(<div>
-    <StaticRouter location={req.url}>
-      <Route exact path="/user" component={User} ></Route>
-      <Route exact path="/login" component={Login} ></Route>
-    </StaticRouter>
-  </div>);
+  const context = {};
+  const content = renderToString(createRouter('server')({ location: req.url, context }));
+  console.log('context----', context);
+  if (context.url) {
+    res.redirect(context.url)
+  } else {
+    if (context.NOT_FOUND) res.status(404);
 
-  res.send(`
-    <!doctype html>
-    <html>
-        <title>ssr</title>
-        <body>
-            <div id="root">${content}</div>
-            <script src="/client/index.js"></script>
-        </body> 
-    </html>
-  `);
+    res.send(`
+      <!doctype html>
+      <html>
+          <title>ssr</title>
+          <body>
+              <div id="root">${content}</div>
+              <script src="/client/index.js"></script>
+          </body> 
+      </html>
+  `)
+  }
 })
 
 app.listen(PORT, () => {
